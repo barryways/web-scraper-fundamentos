@@ -4,7 +4,7 @@ const cheerio = require('cheerio');
 const express = require('express');
 const sgMail = require('@sendgrid/mail');
 const cron = require('node-cron');
-
+require('dotenv').config();
 const app = express();
 
 const url = 'https://www.prensalibre.com/economia/'
@@ -47,7 +47,7 @@ axios(url)//es una promesa
             `;
           }
           noticiasHTML +='</ul></div>'
-          console.log(noticiasLimpio);
+          console.log(process.env.SENDGRID_API_KEY);
     }).catch(err =>console.log(err));
 
 
@@ -56,7 +56,7 @@ axios(url)//es una promesa
 
 
 // Configura la API key de SendGrid
-sgMail.setApiKey('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'); // Reemplaza 'SENDGRID_API_KEY' con tu propia API key
+sgMail.setApiKey(process.env.SENDGRID_API_KEY); // Reemplaza 'SENDGRID_API_KEY' con tu propia API key
 
 // Función para enviar el correo electrónico
 function sendEmail(noticiasHTML) {
